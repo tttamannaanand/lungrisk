@@ -11,6 +11,24 @@ Estimates a smoker's or ex-smoker's chance of being diagnosed with lung cancer i
 
 > ⚠️ An educational estimate, not a diagnosis or medical advice. The model was built from US participants aged 55–74. The calculator accepts ages 18–90, but outside 55–74 it labels the result a rough guide.
 
+<table><tr>
+<td width="50%"><img src="docs/calculator.jpg" alt="Risk calculator: amber breathing lungs, a gauge at 3.85% just above the NHS screening line, and a 1,000-person dot grid with 39 lit"></td>
+<td width="50%"><img src="docs/air.jpg" alt="Air page: city map of India coloured by air quality, Mumbai selected at 5.3 cigarettes a day, with a 48-hour PM2.5 forecast chart"></td>
+</tr><tr>
+<td align="center"><b>Smoking risk</b>: your 6-year risk and two screening verdicts</td>
+<td align="center"><b>Air you breathe</b>: 23 cities' air as cigarettes per day</td>
+</tr></table>
+
+## What's in it
+
+- **Risk from a validated model.** PLCOm2012, matched against the reference R implementation on 500 people to 15 decimal places.
+- **Two screening rules side by side**, with ✓/✗ per criterion and a plain explanation when they disagree.
+- **Readable results:** a gauge with the screening line marked, "N in 1,000 people like you", and a 1,000-dot grid that lights up to match.
+- **Breathing lungs illustration** that takes on your result's colour, plus a count-up number and dot ripple as you move the sliders.
+- **Air you breathe:** live PM2.5 for 23 Indian cities converted to cigarettes per day, a 48-hour forecast, and a header full of drifting "pollution" specks whose density follows the selected city.
+- **Honest at the edges:** ages 18–90, with results outside 55–74 marked as a rough guide; "<0.01%", never "0.00%"; and cautions for South Asian users and non-cigarette tobacco.
+- **Private and accessible:** no server, light and dark themes with every text colour contrast-checked, and all motion off under "reduce motion".
+
 ## Why this exists
 
 Screening with low-dose CT catches lung cancer early, but who gets offered a scan depends on the rule:
