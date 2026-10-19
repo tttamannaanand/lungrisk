@@ -21,7 +21,8 @@
       <a href="./index.html">Smoking risk</a>
       <a href="./air.html" aria-current="page">Air you breathe</a>
     </nav>
-    <header class="hero">
+    <header class="hero air-hero">
+      <canvas id="particles" aria-hidden="true"></canvas>
       <div class="wrap">
         <p class="eyebrow">Air quality · live + 48-hour forecast</p>
         <h1>The cigarettes you breathe</h1>
@@ -29,6 +30,9 @@
           You don't have to smoke to damage your lungs. Breathing 22 µg/m³ of fine-particle
           pollution (PM2.5) for a day harms you about as much as smoking one cigarette. Here's what
           India's cities breathed in the last 24 hours.
+        </p>
+        <p class="haze-note" id="hazeNote">
+          Each speck drifting here is a stand-in for fine particles.
         </p>
       </div>
     </header>

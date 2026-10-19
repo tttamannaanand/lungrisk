@@ -127,7 +127,13 @@ function update() {
   const ex = explain(result.risk);
   const extrapolated = result.reliability === 'extrapolated';
   const shown = formatPercent(result.risk);
-  $('riskNum').textContent = extrapolated && !shown.startsWith('<') ? `~${shown}` : shown;
+  const prefix = extrapolated && !shown.startsWith('<') ? '~' : '';
+  countUp(result.risk, prefix, shown);
+
+  // The lungs illustration takes on the result's colour.
+  $('lungs').setAttribute('class', `lungs ${ex.band}`);
+  $('lungsCaption').textContent =
+    `Your lungs: ${{ lower: 'lower risk', moderate: 'near the screening line', higher: 'higher risk' }[ex.band]}`;
   $('band').textContent = {
     lower: 'Below screening level',
     moderate: 'Around screening level',
@@ -143,7 +149,15 @@ function update() {
 
   $('frequency').textContent = ex.frequency;
   const lit = ex.people;
-  dots.querySelectorAll('i').forEach((d, k) => d.classList.toggle('on', k < lit));
+  // Newly lit dots ripple in one after another.
+  dots.querySelectorAll('i').forEach((d, k) => {
+    const on = k < lit;
+    if (on !== d.classList.contains('on')) {
+      d.style.transitionDelay = `${Math.min(Math.abs(k - prevLit), 120) * 4}ms`;
+      d.classList.toggle('on', on);
+    }
+  });
+  prevLit = lit;
 
   $('nextStep').textContent = ex.nextStep;
   $('cautions').replaceChildren(
@@ -160,6 +174,35 @@ function update() {
   disagree.innerHTML = nhs.eligible
     ? '<strong>These rules disagree about you.</strong> The US rule only looks at age and pack-years, so it misses risk from things like COPD or family history. This is one of the main arguments for risk-based screening.'
     : '<strong>These rules disagree about you.</strong> You meet the US pack-year rule, but the risk model, which also weighs your other factors, puts you below the NHS line.';
+}
+
+let prevLit = 0;
+let shownRisk = 0;
+let frame = 0;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Animates the big number from its last value; lands on the exact formatted text. */
+function countUp(target: number, prefix: string, finalText: string) {
+  cancelAnimationFrame(frame);
+  const el = $('riskNum');
+  const from = shownRisk;
+  shownRisk = target;
+  if (reducedMotion || from === target) {
+    el.textContent = prefix + finalText;
+    return;
+  }
+  const start = performance.now();
+  const tick = (now: number) => {
+    const t = Math.min((now - start) / 450, 1);
+    const eased = 1 - (1 - t) ** 3;
+    if (t < 1) {
+      el.textContent = prefix + formatPercent(from + (target - from) * eased);
+      frame = requestAnimationFrame(tick);
+    } else {
+      el.textContent = prefix + finalText;
+    }
+  };
+  frame = requestAnimationFrame(tick);
 }
 
 form.addEventListener('input', update);
