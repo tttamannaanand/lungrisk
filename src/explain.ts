@@ -4,6 +4,8 @@ export interface Explanation {
   headline: string;
   /** "About N in 1,000 people like you..." Natural frequencies are easier to read than percentages. */
   frequency: string;
+  /** The N in that sentence, so a picture of 1,000 people can light up the same count. */
+  people: number;
   band: 'lower' | 'moderate' | 'higher';
   nextStep: string;
 }
@@ -13,8 +15,7 @@ export interface Explanation {
  * describe *screening relevance*, not whether someone is "safe".
  */
 export function explain(risk: number): Explanation {
-  const perThousand = risk * 1000;
-  const n = perThousand < 1 ? 'fewer than 1' : String(Math.round(perThousand)).replace(/^0$/, '1');
+  const people = peoplePerThousand(risk);
 
   const band = risk < 0.0151 ? 'lower' : risk < 0.05 ? 'moderate' : 'higher';
   const nextStep = {
@@ -28,8 +29,17 @@ export function explain(risk: number): Explanation {
 
   return {
     headline: `${formatPercent(risk)} chance of a lung cancer diagnosis in the next 6 years`,
-    frequency: `Out of 1,000 people with answers like yours, about ${n} would be diagnosed with lung cancer within 6 years.`,
+    frequency:
+      people === 0
+        ? 'Out of 1,000 people with answers like yours, fewer than 1 would be diagnosed with lung cancer within 6 years.'
+        : `Out of 1,000 people with answers like yours, about ${people} would be diagnosed with lung cancer within 6 years.`,
+    people,
     band,
     nextStep,
   };
+}
+
+/** Rounded once, here, so the sentence and the dot picture always agree. */
+export function peoplePerThousand(risk: number): number {
+  return Math.round(risk * 1000);
 }

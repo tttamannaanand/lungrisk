@@ -9,7 +9,7 @@
 
 Estimates a smoker's or ex-smoker's chance of being diagnosed with lung cancer in the next 6 years, using **PLCOm2012**, the model NHS England uses to decide who to screen. It then shows whether two different screening rules would offer that person a low-dose CT scan, and explains **why they disagree**.
 
-> ⚠️ An educational estimate, not a diagnosis or medical advice. The model was built from US participants aged 55–74.
+> ⚠️ An educational estimate, not a diagnosis or medical advice. The model was built from US participants aged 55–74. The calculator accepts ages 18–90, but outside 55–74 it labels the result a rough guide.
 
 ## Why this exists
 
@@ -20,7 +20,7 @@ Screening with low-dose CT catches lung cancer early, but who gets offered a sca
 | Who qualifies | Age 50–80, **≥ 20 pack-years**, smoke now or quit ≤ 15 years ago | Age 55–74, **PLCOm2012 risk ≥ 1.51%** |
 | What it looks at | Age and smoking only | Age, smoking, COPD, family history, prior cancer, BMI, education, ethnicity |
 
-The two rules regularly disagree, and the calculator shows it live. A 70-year-old who smoked 10 a day for 35 years and quit 3 years ago, with COPD and a family history of lung cancer, has a **1.84%** modelled risk, above the NHS threshold. The US rule turns them away for having 17.5 pack-years instead of 20. That gap is a real, published argument for risk-based screening.
+The two rules regularly disagree, and the calculator shows it live. A 70-year-old who smoked 10 a day for 35 years and quit 3 years ago, with COPD and a family history of lung cancer, has a modelled risk **above the NHS 1.51% threshold** (about 1.8–2.7%, depending on BMI, education and ethnicity). The US rule turns them away for having 17.5 pack-years instead of 20. That gap is a real, published argument for risk-based screening.
 
 ## How the numbers are checked
 
@@ -39,7 +39,7 @@ Other tests check behaviour, not just numbers:
 ## Honest limitations
 
 The page shows these where they apply, rather than hiding them:
-- **Age:** the model was built on ages 55–74. Results outside that range carry a caution.
+- **Age:** the model was built on ages 55–74. Ages 18–90 are accepted, but outside that range the result is marked as a rough guide. Under 50 there's an explicit warning that a low 6-year number doesn't mean smoking is safe, and risks below 0.01% show as "<0.01%", never "0.00%".
 - **South Asian users:** the "Asian" adjustment comes from US participants and **has not been validated for South Asian populations**.
 - **Other tobacco:** bidis are counted as cigarettes, but chewed tobacco and hookah aren't in the model at all.
 - **NHS route:** NHS England also accepts the LLPv2 model (≥ 2.5%), which this tool doesn't calculate.
@@ -52,7 +52,7 @@ There's no server. The whole calculator is about 10 KB of static files, and ever
 
 ```bash
 npm install
-npm test              # 21 tests
+npm test              # 23 tests
 npm run dev           # local site
 npm run build         # static site in dist/
 ```

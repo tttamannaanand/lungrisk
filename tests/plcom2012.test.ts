@@ -130,9 +130,15 @@ test('more cigarettes per day always means more risk', () => {
 });
 
 test('risk is always a probability', () => {
-  for (const age of [40, 55, 74, 90]) {
+  for (const age of [18, 40, 55, 74, 90]) {
     for (const cpd of [1, 200]) {
-      const r = plcom2012({ ...reference, age, cigarettesPerDay: cpd, yearsSmoked: 30 }).risk;
+      const r = plcom2012({
+        ...reference,
+        age,
+        smokingStatus: 'current',
+        cigarettesPerDay: cpd,
+        yearsSmoked: Math.min(30, age - 12),
+      }).risk;
       assert.ok(r > 0 && r < 1);
     }
   }
@@ -141,7 +147,8 @@ test('risk is always a probability', () => {
 test('rejects people the model does not apply to', () => {
   const bad: [Partial<Inputs>, RegExp][] = [
     [{ cigarettesPerDay: 0 }, /only applies to people who have smoked/],
-    [{ age: 30 }, /Age/],
+    [{ age: 17 }, /between 18 and 90/],
+    [{ age: 91 }, /between 18 and 90/],
     [{ bmi: 5 }, /BMI/],
     [{ yearsSmoked: 70 }, /no more than your age/],
     [{ yearsSinceQuit: undefined as never }, /required for former smokers/],
@@ -164,7 +171,10 @@ test('rejects people the model does not apply to', () => {
 
 test('cautions outside the age range the model was built on', () => {
   assert.deepEqual(plcom2012(reference).cautions, []);
-  assert.match(plcom2012({ ...reference, age: 50 }).cautions[0] ?? '', /aged 55-74/);
+  assert.equal(plcom2012(reference).reliability, 'validated');
+  const older = plcom2012({ ...reference, age: 80 });
+  assert.equal(older.reliability, 'extrapolated');
+  assert.match(older.cautions[0] ?? '', /aged 55-74, so it is less reliable at age 80/);
 });
 
 test('cautions that the Asian adjustment is not validated for South Asians', () => {
@@ -176,4 +186,23 @@ test('pack-years', () => {
   assert.equal(packYears(20, 20), 20);
   assert.equal(packYears(10, 30), 15);
   assert.equal(packYears(40, 5), 10);
+});
+
+test('young smokers are warned that a low number does not mean safe', () => {
+  const young = plcom2012({
+    ...reference,
+    age: 25,
+    smokingStatus: 'current',
+    cigarettesPerDay: 20,
+    yearsSmoked: 8,
+  });
+  assert.equal(young.reliability, 'extrapolated');
+  assert.ok(young.risk < 0.001, 'the model gives a tiny number at 25...');
+  assert.match(young.cautions[0] ?? '', /does not mean smoking is safe/); // ...so say so
+});
+
+test('ages 18 to 90 are accepted', () => {
+  for (const age of [18, 90]) {
+    assert.doesNotThrow(() => plcom2012({ ...reference, age, yearsSmoked: 2, yearsSinceQuit: 1 }));
+  }
 });
