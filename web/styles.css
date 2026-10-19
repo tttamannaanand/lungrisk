@@ -13,6 +13,8 @@
   --on-accent: #ffffff;
   --warn-soft: #f8ecd2; /* cautions and disagreements */
   --warn-ink: #7a5000;
+  --grid: rgb(30 42 34 / 7%);
+  --grid-major: rgb(30 42 34 / 11%);
   --low: #2f9e5b;
   --mid: #d9902a;
   --high: #b3261e;
@@ -34,6 +36,8 @@
     --on-accent: #0f1a14;
     --warn-soft: #33290f;
     --warn-ink: #f0c060;
+    --grid: rgb(238 243 236 / 5%);
+    --grid-major: rgb(238 243 236 / 9%);
     --low: #4cc27e;
     --mid: #f0a845;
     --high: #ff7a6b;
@@ -50,7 +54,20 @@
 }
 body {
   margin: 0;
-  background: var(--bg);
+  /* Graph-paper grid: fine 24px lines with a stronger line every 4 squares. */
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:
+    96px 96px,
+    96px 96px,
+    24px 24px,
+    24px 24px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
   color: var(--ink);
   font: 16px/1.55 var(--sans);
   -webkit-font-smoothing: antialiased;
