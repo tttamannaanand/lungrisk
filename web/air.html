@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Air You Breathe</title>
+    <meta
+      name="description"
+      content="Today's air pollution in Indian cities, expressed as cigarettes per day, with a 48-hour forecast."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav class="topnav wrap" aria-label="Sections">
+      <a href="./index.html">Smoking risk</a>
+      <a href="./air.html" aria-current="page">Air you breathe</a>
+    </nav>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Air quality · live + 48-hour forecast</p>
+        <h1>The cigarettes you breathe</h1>
+        <p class="lede">
+          You don't have to smoke to damage your lungs. Breathing 22 µg/m³ of fine-particle
+          pollution (PM2.5) for a day harms you about as much as smoking one cigarette. Here's what
+          India's cities breathed in the last 24 hours.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap air-layout">
+      <section class="card">
+        <div class="tagrow">
+          <h2 class="card-title">Last 24 hours</h2>
+          <span id="updated" class="tag validated">Loading…</span>
+        </div>
+        <div class="map-wrap">
+          <svg
+            id="map"
+            class="map"
+            viewBox="0 0 320 320"
+            role="img"
+            aria-label="Indian cities coloured by air quality"
+          ></svg>
+        </div>
+        <ul class="legend" id="legend"></ul>
+        <p class="hint">Dots are placed by latitude and longitude. Bigger dot = more cigarettes.</p>
+      </section>
+
+      <section>
+        <article class="card city" id="city" aria-live="polite">
+          <label class="city-pick"
+            >City
+            <select id="citySelect"></select>
+          </label>
+          <p class="label">
+            In the last 24 hours, breathing the air in <span id="cityName"></span> was like smoking
+          </p>
+          <p class="cigs-big"><span id="cigsNum">–</span> <span id="cigsUnit">cigarettes</span></p>
+          <div id="cigIcons" class="cig-icons" aria-hidden="true"></div>
+          <p id="cityLine" class="city-line"></p>
+
+          <h3 class="section-title">Next 48 hours</h3>
+          <div class="chart-wrap">
+            <svg
+              id="chart"
+              class="chart"
+              viewBox="0 0 320 150"
+              role="img"
+              aria-label="PM2.5 forecast"
+            ></svg>
+          </div>
+          <div class="days">
+            <div>
+              <p class="label">Next 24 h</p>
+              <p id="day1" class="day-val"></p>
+            </div>
+            <div>
+              <p class="label">The day after</p>
+              <p id="day2" class="day-val"></p>
+            </div>
+            <div>
+              <p class="label">Worst hour</p>
+              <p id="peak" class="day-val"></p>
+            </div>
+          </div>
+        </article>
+
+        <h3 class="section-title">All cities, worst first</h3>
+        <ol id="ranking" class="ranking"></ol>
+      </section>
+    </main>
+
+    <section class="wrap">
+      <div class="card next">
+        <h3>On bad-air days</h3>
+        <p>
+          Stay indoors when you can, especially in the morning and late evening when pollution often
+          peaks. A well-fitted N95 mask filters most PM2.5; cloth masks don't. If you smoke, your
+          lungs are taking both hits: <a href="./index.html">check your smoking risk</a>, and call
+          the free National Tobacco Quitline on <a href="tel:1800112356">1800 112 356</a> for help
+          to stop.
+        </p>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      <p>
+        <strong>About the numbers.</strong> PM2.5 comes from the
+        <a href="https://open-meteo.com/en/docs/air-quality-api">Open-Meteo Air Quality API</a>,
+        which uses Copernicus Atmosphere Monitoring Service (CAMS) forecasts on a grid about 45 km
+        wide. It's a model estimate for the wider area, not a street-level reading, and local
+        monitors (such as CPCB stations) are often higher in busy areas. The cigarette comparison is
+        Berkeley Earth's rule of thumb for health effects, not a medical equivalence. AQI bands
+        follow CPCB's National AQI for PM2.5.
+      </p>
+      <p>
+        Contains modified Copernicus Atmosphere Monitoring Service information. Weather data by
+        <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0) ·
+        <a href="https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+          >Berkeley Earth memo</a
+        >
+        ·
+        <a href="https://github.com/tttamannaanand/lungrisk">Source code &amp; tests</a>
+      </p>
+    </footer>
+    <script type="module" src="./air.ts"></script>
+  </body>
+</html>
