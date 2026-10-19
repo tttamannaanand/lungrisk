@@ -1,31 +1,41 @@
 :root {
-  --bg: #f5f1ea;
-  --surface: #fffdf9;
-  --ink: #1d2b2f;
-  --muted: #637277;
-  --line: #e4ddd1;
-  --teal: #1f6f6b;
-  --teal-soft: #dcefeb;
-  --low: #2f8f6f;
-  --mid: #d9902a;
-  --high: #c8553d;
-  --amber-soft: #fbefd9;
-  --shadow: 0 1px 2px rgb(29 43 47 / 6%), 0 8px 24px rgb(29 43 47 / 6%);
+  /* Bone, dark purple and orange. Contrast-checked: orange is only used as
+     text in its deeper "ink" shade (at least 5:1 on every background it sits on); bright orange is for
+     fills, with dark purple text on top (5.2:1). */
+  --bg: #ece4d3; /* bone */
+  --surface: #f8f3e8;
+  --ink: #2a1535; /* dark purple */
+  --muted: #6e5a72;
+  --line: #dcd1bd;
+  --accent: #e8692a; /* orange: fills, sliders, gauge */
+  --accent-ink: #963a0a; /* burnt orange: links and labels */
+  --accent-soft: #f6d9c4;
+  --on-accent: #2a1535;
+  --plum-soft: #e3d5e3;
+  --low: #7a4e8c;
+  --mid: #e8692a;
+  --high: #a82c17;
+  --shadow: 0 1px 2px rgb(42 21 53 / 8%), 0 8px 24px rgb(42 21 53 / 8%);
   --radius: 18px;
   --serif: 'Fraunces', Georgia, serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #111a1c;
-    --surface: #182427;
-    --ink: #e8efee;
-    --muted: #9aaeb0;
-    --line: #2a3a3d;
-    --teal: #6fc7bd;
-    --teal-soft: #1d3a37;
-    --amber-soft: #3a2e1a;
-    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 25%);
+    --bg: #1c1024; /* deep purple */
+    --surface: #28182f;
+    --ink: #ece4d3; /* bone */
+    --muted: #b4a6b4;
+    --line: #3d2a47;
+    --accent: #f28a4b;
+    --accent-ink: #f28a4b;
+    --accent-soft: #4a2631;
+    --on-accent: #1c1024;
+    --plum-soft: #3a2347;
+    --low: #b38cc4;
+    --mid: #f28a4b;
+    --high: #ff6b4a;
+    --shadow: 0 1px 2px rgb(0 0 0 / 35%), 0 8px 24px rgb(0 0 0 / 30%);
   }
 }
 
@@ -44,7 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a {
-  color: var(--teal);
+  color: var(--accent-ink);
 }
 .wrap {
   max-width: 1120px;
@@ -56,8 +66,8 @@ a {
 .hero {
   padding: 48px 0 28px;
   background:
-    radial-gradient(900px 300px at 85% -10%, var(--teal-soft), transparent 70%),
-    radial-gradient(600px 240px at 0% 0%, var(--amber-soft), transparent 70%);
+    radial-gradient(900px 300px at 85% -10%, var(--accent-soft), transparent 70%),
+    radial-gradient(600px 240px at 0% 0%, var(--plum-soft), transparent 70%);
 }
 .eyebrow {
   margin: 0 0 8px;
@@ -65,7 +75,7 @@ a {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--accent-ink);
 }
 h1 {
   margin: 0 0 12px;
@@ -96,7 +106,7 @@ h1 {
 .pill svg {
   width: 16px;
   height: 16px;
-  fill: var(--teal);
+  fill: var(--accent-ink);
 }
 
 /* ---------- layout ---------- */
@@ -138,8 +148,8 @@ h1 {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--teal-soft);
-  color: var(--teal);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
   font-size: 14px;
   font-weight: 700;
 }
@@ -173,8 +183,8 @@ select {
 input[type='number']:focus,
 select:focus {
   outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px var(--teal-soft);
+  border-color: var(--accent-ink);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 .pair {
   display: grid;
@@ -198,7 +208,7 @@ select:focus {
 .slider output {
   font-weight: 700;
   font-size: 18px;
-  color: var(--teal);
+  color: var(--accent-ink);
   font-variant-numeric: tabular-nums;
 }
 .slider input {
@@ -211,7 +221,7 @@ input[type='range'] {
   height: 6px;
   margin: 8px 0;
   border-radius: 999px;
-  background: linear-gradient(to right, var(--teal) 0 var(--fill), var(--line) var(--fill) 100%);
+  background: linear-gradient(to right, var(--accent) 0 var(--fill), var(--line) var(--fill) 100%);
   cursor: pointer;
 }
 input[type='range']::-webkit-slider-thumb {
@@ -220,7 +230,7 @@ input[type='range']::-webkit-slider-thumb {
   height: 24px;
   border-radius: 50%;
   background: var(--surface);
-  border: 2px solid var(--teal);
+  border: 3px solid var(--accent);
   box-shadow: var(--shadow);
   transition: transform 0.12s;
 }
@@ -229,13 +239,13 @@ input[type='range']::-moz-range-thumb {
   height: 22px;
   border-radius: 50%;
   background: var(--surface);
-  border: 2px solid var(--teal);
+  border: 3px solid var(--accent);
 }
 input[type='range']:active::-webkit-slider-thumb {
   transform: scale(1.15);
 }
 input[type='range']:focus-visible {
-  outline: 3px solid var(--teal-soft);
+  outline: 3px solid var(--accent-soft);
   outline-offset: 6px;
 }
 
@@ -270,7 +280,7 @@ input[type='range']:focus-visible {
   box-shadow: var(--shadow);
 }
 .seg label:has(input:focus-visible) {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--accent-ink);
 }
 
 .chips {
@@ -300,16 +310,17 @@ input[type='range']:focus-visible {
   color: var(--muted);
 }
 .chip input:checked + span {
-  background: var(--teal);
-  border-color: var(--teal);
-  color: var(--surface);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
 }
 .chip input:checked + span::before {
   content: '✓ ';
   color: inherit;
 }
 .chip input:focus-visible + span {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 2px;
 }
 .hint {
@@ -354,12 +365,12 @@ input[type='range']:focus-visible {
   border-radius: 999px;
 }
 .tag.validated {
-  background: var(--teal-soft);
-  color: var(--teal);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 .tag.extrapolated {
-  background: var(--amber-soft);
-  color: var(--mid);
+  background: var(--plum-soft);
+  color: var(--accent-ink);
 }
 
 .gauge {
@@ -470,7 +481,7 @@ input[type='range']:focus-visible {
   padding: 10px 12px;
   margin-top: 8px;
   border-radius: 12px;
-  background: var(--amber-soft);
+  background: var(--plum-soft);
   font-size: 14px;
 }
 
@@ -517,8 +528,8 @@ input[type='range']:focus-visible {
   font-size: 14px;
 }
 .verdict.yes {
-  background: var(--teal-soft);
-  color: var(--teal);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 .verdict.no {
   background: var(--bg);
@@ -547,8 +558,8 @@ input[type='range']:focus-visible {
 }
 .rule li.met::before {
   content: '✓';
-  background: var(--teal-soft);
-  color: var(--teal);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 .rule li.unmet {
   color: var(--muted);
@@ -562,7 +573,7 @@ input[type='range']:focus-visible {
   margin: 14px 0 0;
   padding: 14px 16px;
   border-radius: 14px;
-  background: var(--amber-soft);
+  background: var(--plum-soft);
   font-size: 14.5px;
 }
 .disagree strong {
@@ -585,7 +596,7 @@ input[type='range']:focus-visible {
   gap: 12px;
   padding: 12px 14px;
   border-radius: 14px;
-  background: var(--teal-soft);
+  background: var(--accent-soft);
   color: var(--ink);
   text-decoration: none;
   transition: transform 0.15s;
@@ -597,7 +608,7 @@ input[type='range']:focus-visible {
   flex: none;
   width: 22px;
   height: 22px;
-  fill: var(--teal);
+  fill: var(--accent-ink);
 }
 .quitline small {
   display: block;
@@ -856,12 +867,12 @@ footer {
   opacity: 0.6;
 }
 .chart .area {
-  fill: var(--teal);
+  fill: var(--accent);
   opacity: 0.12;
 }
 .chart .line {
   fill: none;
-  stroke: var(--teal);
+  stroke: var(--accent);
   stroke-width: 2;
   stroke-linejoin: round;
 }
@@ -918,7 +929,7 @@ footer {
   background: var(--bg);
 }
 .ranking button.sel {
-  background: var(--teal-soft);
+  background: var(--accent-soft);
 }
 .rk-cigs {
   font-weight: 700;
