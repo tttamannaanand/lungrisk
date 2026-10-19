@@ -53,6 +53,8 @@ export function formatPercent(p: number): string {
   // under the 1.51% cut-off can never display as 1.51% (1.5096% -> "1.50%").
   const pct = p * 100;
   if (pct >= 10) return `${pct.toFixed(1)}%`;
+  // Never show "0.00%": a tiny risk is not no risk.
+  if (pct < 0.01) return '<0.01%';
   return `${(Math.floor(pct * 100 + 1e-9) / 100).toFixed(2)}%`;
 }
 

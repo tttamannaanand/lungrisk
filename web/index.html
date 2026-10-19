@@ -8,76 +8,89 @@
       name="description"
       content="Estimate your 6-year lung cancer risk with the PLCOm2012 model, and see whether US and UK screening rules would offer you a scan. Runs entirely in your browser."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="wrap">
-      <h1>Lung Risk Check</h1>
-      <p class="lede">
-        For people who smoke or used to. Estimates your chance of a lung cancer diagnosis in the
-        next 6 years using <strong>PLCOm2012</strong>, the model NHS England uses to decide who gets
-        screened, and compares two screening rules.
-      </p>
-      <p class="private">
-        🔒 Everything is calculated on your device. Nothing you enter is sent anywhere.
-      </p>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Lung health · 6-year risk</p>
+        <h1>Lung Risk Check</h1>
+        <p class="lede">
+          For anyone who smokes or used to. See your estimated chance of lung cancer in the next 6
+          years, and whether screening rules in the US and UK would offer you a scan.
+        </p>
+        <p class="pill">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z" />
+          </svg>
+          Private by design: everything is calculated on your device
+        </p>
+      </div>
     </header>
 
-    <main class="wrap grid">
+    <main class="wrap layout">
       <form id="form" novalidate>
-        <fieldset>
-          <legend>About you</legend>
-          <label
-            >Age <input name="age" type="number" min="40" max="90" value="62" required
-          /></label>
-          <label
-            >Height (cm)
-            <input name="height" type="number" min="120" max="220" value="170" required
-          /></label>
-          <label
-            >Weight (kg) <input name="weight" type="number" min="30" max="250" value="70" required
-          /></label>
-          <label
-            >Race or ethnicity
-            <select name="race">
-              <option value="asian">Asian</option>
-              <option value="white">White</option>
-              <option value="black">Black</option>
-              <option value="hispanic">Hispanic</option>
-              <option value="american_indian_alaskan">American Indian or Alaskan Native</option>
-              <option value="native_hawaiian_pacific">Native Hawaiian or Pacific Islander</option>
-            </select>
-          </label>
-          <label
-            >Highest education
-            <select name="education">
-              <option value="1">Less than high school</option>
-              <option value="2">High school graduate</option>
-              <option value="3">Post-high-school training</option>
-              <option value="4" selected>Some college</option>
-              <option value="5">College graduate</option>
-              <option value="6">Postgraduate or professional degree</option>
-            </select>
-          </label>
-        </fieldset>
+        <section class="step">
+          <h2><span class="num">1</span> About you</h2>
 
-        <fieldset>
-          <legend>Health history</legend>
-          <label class="check"
-            ><input name="copd" type="checkbox" /> I've been told I have COPD, emphysema or chronic
-            bronchitis</label
-          >
-          <label class="check"
-            ><input name="personalCancerHistory" type="checkbox" /> I've had cancer before</label
-          >
-          <label class="check"
-            ><input name="familyLungCancer" type="checkbox" /> A parent, brother or sister had lung
-            cancer</label
-          >
-        </fieldset>
+          <div class="slider">
+            <label for="age">Age</label>
+            <output id="ageOut" for="age"></output>
+            <input id="age" name="age" type="range" min="18" max="90" value="45" />
+          </div>
 
-        <fieldset>
-          <legend>Smoking</legend>
+          <div class="pair">
+            <label
+              >Height <span class="unit">cm</span>
+              <input
+                name="height"
+                type="number"
+                inputmode="numeric"
+                min="120"
+                max="220"
+                value="168"
+            /></label>
+            <label
+              >Weight <span class="unit">kg</span>
+              <input name="weight" type="number" inputmode="numeric" min="30" max="250" value="68"
+            /></label>
+          </div>
+          <p class="bmi" id="bmi"></p>
+
+          <div class="pair">
+            <label
+              >Ethnicity
+              <select name="race">
+                <option value="asian">Asian</option>
+                <option value="white">White</option>
+                <option value="black">Black</option>
+                <option value="hispanic">Hispanic</option>
+                <option value="american_indian_alaskan">American Indian / Alaskan Native</option>
+                <option value="native_hawaiian_pacific">Native Hawaiian / Pacific Islander</option>
+              </select>
+            </label>
+            <label
+              >Education
+              <select name="education">
+                <option value="1">Less than high school</option>
+                <option value="2">High school graduate</option>
+                <option value="3">Post-school training</option>
+                <option value="4">Some college</option>
+                <option value="5" selected>College graduate</option>
+                <option value="6">Postgraduate degree</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="step">
+          <h2><span class="num">2</span> Your smoking</h2>
           <div class="seg" role="radiogroup" aria-label="Do you smoke now?">
             <label
               ><input type="radio" name="smokingStatus" value="current" checked /> I smoke
@@ -87,81 +100,142 @@
               ><input type="radio" name="smokingStatus" value="former" /> I used to smoke</label
             >
           </div>
-          <label
-            >Cigarettes per day, on average
-            <input name="cigarettesPerDay" type="number" min="1" max="200" value="20" required
-          /></label>
-          <label
-            >Years you've smoked in total
-            <input name="yearsSmoked" type="number" min="1" max="80" value="30" required
-          /></label>
-          <label id="quitRow" hidden
-            >Years since you quit
-            <input name="yearsSinceQuit" type="number" min="0" max="80" value="5"
-          /></label>
+
+          <div class="slider">
+            <label for="cpd">Cigarettes a day, on average</label>
+            <output id="cpdOut" for="cpd"></output>
+            <input id="cpd" name="cigarettesPerDay" type="range" min="1" max="60" value="10" />
+          </div>
+          <div class="slider">
+            <label for="yrs">Years smoked in total</label>
+            <output id="yrsOut" for="yrs"></output>
+            <input id="yrs" name="yearsSmoked" type="range" min="1" max="70" value="20" />
+          </div>
+          <div class="slider" id="quitRow" hidden>
+            <label for="quit">Years since you quit</label>
+            <output id="quitOut" for="quit"></output>
+            <input id="quit" name="yearsSinceQuit" type="range" min="0" max="60" value="5" />
+          </div>
           <p class="hint">
-            Count bidis as cigarettes. Chewed tobacco and hookah aren't part of this model.
+            <span id="packYears"></span> · Count bidis as cigarettes. Chewed tobacco and hookah
+            aren't part of this model.
           </p>
-        </fieldset>
+        </section>
+
+        <section class="step">
+          <h2><span class="num">3</span> Health history</h2>
+          <p class="sub">Tap any that apply.</p>
+          <div class="chips">
+            <label class="chip"
+              ><input name="copd" type="checkbox" /><span
+                >COPD, emphysema or chronic bronchitis</span
+              ></label
+            >
+            <label class="chip"
+              ><input name="familyLungCancer" type="checkbox" /><span
+                >Parent or sibling had lung cancer</span
+              ></label
+            >
+            <label class="chip"
+              ><input name="personalCancerHistory" type="checkbox" /><span
+                >I've had cancer before</span
+              ></label
+            >
+          </div>
+        </section>
         <p id="error" class="error" role="alert"></p>
       </form>
 
-      <section id="result" aria-live="polite">
-        <div class="card risk">
-          <p class="label">Your estimated 6-year risk</p>
-          <p id="headline" class="big"></p>
-          <div class="meter" aria-hidden="true">
-            <div id="fill"></div>
-            <span
-              class="mark"
-              style="left: calc(1.51 / 20 * 100%)"
-              title="NHS screening threshold 1.51%"
-            ></span>
+      <aside id="result" aria-live="polite">
+        <section class="card main">
+          <div class="tagrow">
+            <p class="label">Estimated 6-year risk</p>
+            <span id="reliability" class="tag"></span>
           </div>
-          <p class="scale"><span>0%</span><span>NHS threshold 1.51%</span><span>20%+</span></p>
-          <p id="frequency"></p>
-          <ul id="cautions" class="cautions"></ul>
-        </div>
 
-        <div class="cards2">
-          <div class="card" id="uspstf">
-            <h2>US rule <small>USPSTF 2021</small></h2>
+          <div class="gauge">
+            <svg viewBox="0 0 200 112" aria-hidden="true">
+              <path class="track" d="M16 100 A84 84 0 0 1 184 100" />
+              <path id="arc" class="arc" d="M16 100 A84 84 0 0 1 184 100" />
+              <line id="tick" class="tick" x1="0" y1="0" x2="0" y2="0" />
+            </svg>
+            <div class="gauge-value">
+              <span id="riskNum" class="risk-num"></span>
+              <span id="band" class="band"></span>
+            </div>
+          </div>
+          <p class="gauge-scale">
+            <span>0%</span><span>NHS screening line 1.51%</span><span>10%+</span>
+          </p>
+
+          <p id="frequency" class="frequency"></p>
+          <div id="dots" class="dots" aria-hidden="true"></div>
+          <p class="dots-key">
+            <i class="dot on"></i> diagnosed within 6 years <i class="dot"></i> not
+          </p>
+
+          <ul id="cautions" class="cautions"></ul>
+        </section>
+
+        <h3 class="section-title">Would screening rules offer you a scan?</h3>
+        <div class="rules">
+          <section class="card rule" id="uspstf">
+            <header>
+              <span class="flag">US</span>
+              <div>
+                <h4>USPSTF 2021</h4>
+                <p>Age and pack-years</p>
+              </div>
+            </header>
             <p class="verdict"></p>
             <ul></ul>
-          </div>
-          <div class="card" id="nhs">
-            <h2>NHS England <small>risk-based</small></h2>
+          </section>
+          <section class="card rule" id="nhs">
+            <header>
+              <span class="flag">UK</span>
+              <div>
+                <h4>NHS England</h4>
+                <p>Risk-based</p>
+              </div>
+            </header>
             <p class="verdict"></p>
             <ul></ul>
-          </div>
+          </section>
         </div>
         <p id="disagree" class="disagree" hidden></p>
 
-        <div class="card next">
-          <h2>What to do next</h2>
+        <section class="card next">
+          <h3>What to do next</h3>
           <p id="nextStep"></p>
-          <p>
-            Want help stopping? India's free
-            <strong>National Tobacco Quitline: <a href="tel:1800112356">1800 112 356</a></strong>
-            (<a href="https://ntcp.mohfw.gov.in/national_tobacco_quit_line_services">info</a>).
-          </p>
-        </div>
-      </section>
+          <a class="quitline" href="tel:1800112356">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z"
+              />
+            </svg>
+            <span
+              ><strong>Free help to quit: 1800 112 356</strong
+              ><small>National Tobacco Quitline, India</small></span
+            >
+          </a>
+        </section>
+      </aside>
     </main>
 
     <footer class="wrap">
       <p>
-        <strong>This is an estimate for education, not a diagnosis or medical advice.</strong> The
-        model was built from US participants aged 55-74 and may be less accurate for you. Only a
-        doctor can tell you whether screening is right for you.
+        <strong>An educational estimate, not a diagnosis or medical advice.</strong> PLCOm2012 was
+        built from US participants aged 55–74. Only a doctor can tell you whether screening is right
+        for you.
       </p>
       <p>
-        Model: Tammemägi MC et al., <em>N Engl J Med</em> 2013;368:728-36. Screening rules:
+        Model: Tammemägi MC et al., <em>N Engl J Med</em> 2013;368:728-36 · Rules:
         <a
           href="https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/lung-cancer-screening"
           >USPSTF 2021</a
-        >; NHS England Targeted Lung Health Check (PLCOm2012 ≥ 1.51%).
-        <a href="https://github.com/tttamannaanand/lungrisk">Source code and tests</a>.
+        >, NHS England Targeted Lung Health Check (PLCOm2012 ≥ 1.51%) ·
+        <a href="https://ntcp.mohfw.gov.in/national_tobacco_quit_line_services">Quitline info</a> ·
+        <a href="https://github.com/tttamannaanand/lungrisk">Source code &amp; tests</a>
       </p>
     </footer>
     <script type="module" src="./main.ts"></script>

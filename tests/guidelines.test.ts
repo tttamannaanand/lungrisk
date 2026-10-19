@@ -83,6 +83,8 @@ test('the guidelines disagree the other way: 20 pack-years but low modelled risk
 
 test('formatPercent keeps small risks readable', () => {
   assert.equal(formatPercent(0.00045), '0.04%');
+  assert.equal(formatPercent(0.00004), '<0.01%'); // never "0.00%"
+  assert.equal(formatPercent(0.0001), '0.01%');
   assert.equal(formatPercent(0.0151), '1.51%');
   assert.equal(formatPercent(0.01505), '1.50%');
   assert.equal(formatPercent(0.015099), '1.50%'); // just under the cut-off must never show 1.51%
@@ -94,7 +96,11 @@ test('explain uses natural frequencies and the right band', () => {
   const low = explain(0.004);
   assert.equal(low.band, 'lower');
   assert.match(low.frequency, /about 4 would/);
-  assert.equal(explain(0.0003).frequency.includes('fewer than 1'), true);
+  assert.match(explain(0.0003).frequency, /, fewer than 1 would/);
+  assert.equal(explain(0.0003).people, 0);
+  // 0.08% is 0.8 in 1,000: the sentence and the dots must agree on 1
+  assert.match(explain(0.0008).frequency, /about 1 would/);
+  assert.equal(explain(0.0008).people, 1);
   assert.equal(explain(0.0151).band, 'moderate');
   const high = explain(0.12);
   assert.equal(high.band, 'higher');

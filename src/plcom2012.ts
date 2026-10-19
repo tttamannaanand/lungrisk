@@ -77,6 +77,9 @@ export const COEF = {
 /** The age range of the PLCO trial participants the model was built from. */
 export const DEVELOPED_AGE_RANGE = [55, 74] as const;
 
+/** Below this age, a low 6-year risk is especially easy to misread. */
+export const YOUNG_AGE = 50;
+
 export class InputError extends Error {}
 
 export interface Result {
@@ -85,6 +88,11 @@ export interface Result {
   logit: number;
   /** Reasons to treat this estimate with extra caution. */
   cautions: string[];
+  /**
+   * 'validated' inside the 55-74 age range the model was built on;
+   * 'extrapolated' outside it, where the number is a rough guide at best.
+   */
+  reliability: 'validated' | 'extrapolated';
 }
 
 export function validate(i: Inputs): void {
@@ -92,7 +100,7 @@ export function validate(i: Inputs): void {
     if (!ok) throw new InputError(msg);
   };
   const finite = (n: number) => Number.isFinite(n);
-  check(finite(i.age) && i.age >= 40 && i.age <= 90, 'Age must be between 40 and 90.');
+  check(finite(i.age) && i.age >= 18 && i.age <= 90, 'Age must be between 18 and 90.');
   check(RACES.includes(i.race), 'Unknown race or ethnicity.');
   check(i.education in EDUCATION_LEVELS, 'Education must be a level from 1 to 6.');
   check(finite(i.bmi) && i.bmi >= 12 && i.bmi <= 70, 'BMI must be between 12 and 70.');
@@ -138,7 +146,12 @@ export function plcom2012(i: Inputs): Result {
 
   const cautions: string[] = [];
   const [lo, hi] = DEVELOPED_AGE_RANGE;
-  if (i.age < lo || i.age > hi) {
+  const reliability = i.age < lo || i.age > hi ? 'extrapolated' : 'validated';
+  if (i.age < YOUNG_AGE) {
+    cautions.push(
+      `The model was built from people aged ${lo}-${hi}. At ${i.age} it can only see the next 6 years, when lung cancer is still rare. A low number here does not mean smoking is safe: the damage builds up over decades, and quitting now prevents most of it.`,
+    );
+  } else if (reliability === 'extrapolated') {
     cautions.push(
       `The model was built from people aged ${lo}-${hi}, so it is less reliable at age ${i.age}.`,
     );
@@ -149,7 +162,7 @@ export function plcom2012(i: Inputs): Result {
     );
   }
 
-  return { risk: 1 / (1 + Math.exp(-logit)), logit, cautions };
+  return { risk: 1 / (1 + Math.exp(-logit)), logit, cautions, reliability };
 }
 
 /** Pack-years: packs of 20 per day × years smoked. */
