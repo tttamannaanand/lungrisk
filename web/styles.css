@@ -636,3 +636,313 @@ footer {
     transition: none !important;
   }
 }
+
+/* ---------- nav ---------- */
+.topnav {
+  display: flex;
+  gap: 6px;
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+.topnav a {
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.topnav a:hover {
+  color: var(--ink);
+}
+.topnav a[aria-current='page'] {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.topnav + .hero {
+  padding-top: 24px;
+}
+
+/* ---------- air: AQI colours (CPCB) ---------- */
+:root {
+  --aq-good: #3a9b5c;
+  --aq-sat: #9cc43f;
+  --aq-mod: #e9c13a;
+  --aq-poor: #ef8a2b;
+  --aq-vpoor: #d7432f;
+  --aq-severe: #8e1f3c;
+}
+.aq-good {
+  fill: var(--aq-good);
+  background: var(--aq-good);
+}
+.aq-sat {
+  fill: var(--aq-sat);
+  background: var(--aq-sat);
+}
+.aq-mod {
+  fill: var(--aq-mod);
+  background: var(--aq-mod);
+}
+.aq-poor {
+  fill: var(--aq-poor);
+  background: var(--aq-poor);
+}
+.aq-vpoor {
+  fill: var(--aq-vpoor);
+  background: var(--aq-vpoor);
+}
+.aq-severe {
+  fill: var(--aq-severe);
+  background: var(--aq-severe);
+}
+
+/* ---------- air: layout ---------- */
+.air-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 24px;
+}
+.card-title {
+  margin: 0;
+  font-size: 17px;
+}
+.map-wrap {
+  max-width: 420px;
+  margin: 8px auto 0;
+}
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.pin {
+  cursor: pointer;
+  outline: none;
+}
+.pin circle {
+  opacity: 0.88;
+  stroke: var(--surface);
+  stroke-width: 1.5;
+  transition: opacity 0.15s;
+}
+.pin text {
+  font-size: 8.5px;
+  font-weight: 600;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 2.5px;
+}
+.pin:hover circle,
+.pin:focus-visible circle {
+  opacity: 1;
+}
+.pin.sel circle {
+  opacity: 1;
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.pin text.on-demand {
+  display: none;
+}
+.pin:hover text.on-demand,
+.pin:focus-visible text.on-demand,
+.pin.sel text.on-demand {
+  display: block;
+}
+.rk-cigs small {
+  font-weight: 500;
+  color: var(--muted);
+}
+.pin.sel text {
+  fill: var(--ink);
+  font-size: 10px;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+}
+.legend i,
+.rk-name i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+.legend small {
+  color: var(--muted);
+}
+
+/* ---------- air: city card ---------- */
+.city-pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.city-pick select {
+  margin: 0;
+  width: auto;
+  flex: 1;
+  max-width: 260px;
+}
+.cigs-big {
+  margin: 4px 0 8px;
+  font-family: var(--serif);
+  font-weight: 650;
+  font-size: clamp(40px, 7vw, 58px);
+  line-height: 1;
+}
+#cigsUnit {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cig-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 10px;
+  margin: 6px 0 12px;
+}
+/* A cigarette: white paper, amber filter, glowing tip. */
+.cig {
+  --part: 1;
+  position: relative;
+  width: 44px;
+  height: 9px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #d9a25b 0 30%, #f4f1ea 30% 92%, #e0573a 92%);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 12%);
+}
+.cig.part {
+  width: calc(44px * var(--part));
+  background: linear-gradient(to right, #d9a25b 0 calc(30% / var(--part)), #f4f1ea 0);
+}
+.city-line {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+.chart-wrap {
+  margin: 0 -4px;
+}
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.chart .band {
+  opacity: 0.14;
+}
+.chart .who {
+  stroke: var(--ink);
+  stroke-dasharray: 3 3;
+  stroke-width: 1;
+  opacity: 0.6;
+}
+.chart .area {
+  fill: var(--teal);
+  opacity: 0.12;
+}
+.chart .line {
+  fill: none;
+  stroke: var(--teal);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.chart .axis {
+  font-size: 8.5px;
+  fill: var(--muted);
+}
+.days {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.days > div {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+.day-val {
+  margin: 2px 0 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------- air: ranking ---------- */
+.ranking {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.ranking li + li {
+  border-top: 1px solid var(--line);
+}
+.ranking button {
+  display: grid;
+  grid-template-columns: 1fr auto 90px;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.ranking button:hover {
+  background: var(--bg);
+}
+.ranking button.sel {
+  background: var(--teal-soft);
+}
+.rk-cigs {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.rk-pm {
+  text-align: right;
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 860px) {
+  .air-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .days {
+    grid-template-columns: 1fr;
+  }
+  .ranking button {
+    grid-template-columns: 1fr auto;
+  }
+  .rk-pm {
+    display: none;
+  }
+}

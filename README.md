@@ -5,7 +5,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-000?logo=typescript&logoColor=white)
 ![Runs in browser](https://img.shields.io/badge/data-never%20leaves%20your%20device-000)
 
-**[→ Try it](https://tttamannaanand.github.io/lungrisk/)**
+**[→ Smoking risk calculator](https://tttamannaanand.github.io/lungrisk/)** · **[→ Air you breathe](https://tttamannaanand.github.io/lungrisk/air.html)**
 
 Estimates a smoker's or ex-smoker's chance of being diagnosed with lung cancer in the next 6 years, using **PLCOm2012**, the model NHS England uses to decide who to screen. It then shows whether two different screening rules would offer that person a low-dose CT scan, and explains **why they disagree**.
 
@@ -21,6 +21,14 @@ Screening with low-dose CT catches lung cancer early, but who gets offered a sca
 | What it looks at | Age and smoking only | Age, smoking, COPD, family history, prior cancer, BMI, education, ethnicity |
 
 The two rules regularly disagree, and the calculator shows it live. A 70-year-old who smoked 10 a day for 35 years and quit 3 years ago, with COPD and a family history of lung cancer, has a modelled risk **above the NHS 1.51% threshold** (about 1.8–2.7%, depending on BMI, education and ethnicity). The US rule turns them away for having 17.5 pack-years instead of 20. That gap is a real, published argument for risk-based screening.
+
+## Air you breathe
+
+You don't have to smoke to damage your lungs. The second page shows the last 24 hours of fine-particle pollution (PM2.5) across 23 Indian cities, **converted into cigarettes per day**. It uses Berkeley Earth's rule of thumb that 22 µg/m³ for a day is about one cigarette; the tests reproduce the memo's own examples (China 52 µg/m³ → 2.4/day, Delhi 547 µg/m³ → ~25/day).
+
+- **Map:** each city is a dot at its real latitude and longitude, coloured by CPCB's AQI band and sized by cigarettes. Borders are left out deliberately: common open map files draw India's northern boundary differently from the official map.
+- **48-hour forecast** for any city, with the WHO daily limit marked, plus the worst forecast hour.
+- **Data:** the [Open-Meteo Air Quality API](https://open-meteo.com/en/docs/air-quality-api), which serves CAMS model forecasts on a grid about 45 km wide. It's a regional estimate, not a station reading, and the page says so: busy streets near CPCB monitors are often worse. One request covers all cities, and no key is needed.
 
 ## How the numbers are checked
 
@@ -52,7 +60,7 @@ There's no server. The whole calculator is about 10 KB of static files, and ever
 
 ```bash
 npm install
-npm test              # 23 tests
+npm test              # 35 tests
 npm run dev           # local site
 npm run build         # static site in dist/
 ```
