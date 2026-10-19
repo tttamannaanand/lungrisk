@@ -1,0 +1,28 @@
+{
+  "name": "lungrisk",
+  "private": true,
+  "type": "module",
+  "description": "PLCOm2012 lung cancer risk calculator with screening-guideline comparison. Runs entirely in the browser.",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "dev": "vite web",
+    "build": "vite build web --outDir ../dist --emptyOutDir",
+    "conformance:inputs": "node scripts/write-cases.ts",
+    "conformance:compare": "node scripts/compare-with-r.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.5",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4"
+  }
+}
