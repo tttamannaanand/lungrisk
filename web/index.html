@@ -22,19 +22,50 @@
       <a href="./air.html">Air you breathe</a>
     </nav>
     <header class="hero">
-      <div class="wrap">
-        <p class="eyebrow">Lung health · 6-year risk</p>
-        <h1>Lung Risk Check</h1>
-        <p class="lede">
-          For anyone who smokes or used to. See your estimated chance of lung cancer in the next 6
-          years, and whether screening rules in the US and UK would offer you a scan.
-        </p>
-        <p class="pill">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z" />
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Lung health · 6-year risk</p>
+          <h1>Lung Risk Check</h1>
+          <p class="lede">
+            For anyone who smokes or used to. See your estimated chance of lung cancer in the next 6
+            years, and whether screening rules in the US and UK would offer you a scan.
+          </p>
+          <p class="pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z" />
+            </svg>
+            Private by design: everything is calculated on your device
+          </p>
+        </div>
+        <figure class="lungs-fig" aria-hidden="true">
+          <svg id="lungs" class="lungs lower" viewBox="0 0 200 180">
+            <defs>
+              <radialGradient id="lungShade" cx="35%" cy="30%" r="80%">
+                <stop offset="0" stop-color="#fff" stop-opacity=".45" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <g class="breathe">
+              <path class="lobe" d="M92 62C70 40 30 50 22 100c-6 40 8 68 36 68 22 0 32-18 34-38Z" />
+              <path class="lobe" d="M108 62c22-22 62-12 70 38 6 40-8 68-36 68-22 0-32-18-34-38Z" />
+              <path
+                class="shade"
+                d="M92 62C70 40 30 50 22 100c-6 40 8 68 36 68 22 0 32-18 34-38Z"
+                fill="url(#lungShade)"
+              />
+              <path
+                class="shade"
+                d="M108 62c22-22 62-12 70 38 6 40-8 68-36 68-22 0-32-18-34-38Z"
+                fill="url(#lungShade)"
+              />
+              <path
+                class="airway"
+                d="M100 8v52M100 60 78 84M78 84l-14 22M78 84l-4 30M100 60l22 24M122 84l14 22M122 84l4 30"
+              />
+            </g>
           </svg>
-          Private by design: everything is calculated on your device
-        </p>
+          <figcaption id="lungsCaption">Your lungs: lower risk</figcaption>
+        </figure>
       </div>
     </header>
 

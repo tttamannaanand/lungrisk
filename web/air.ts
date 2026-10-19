@@ -10,6 +10,7 @@ import {
   type City,
   type CityAir,
 } from '../src/air.ts';
+import { Particles } from './particles.ts';
 
 const $ = (id: string) => document.getElementById(id) as HTMLElement;
 const SVG = 'http://www.w3.org/2000/svg';
@@ -70,6 +71,16 @@ const LABEL_LEFT = new Set([
   'Hyderabad',
   'Bengaluru',
 ]);
+
+const BAND_RGB: Record<AqiLabel, string> = {
+  Good: '58,155,92',
+  Satisfactory: '140,170,60',
+  Moderate: '200,160,40',
+  Poor: '220,120,40',
+  'Very poor': '200,60,40',
+  Severe: '140,30,60',
+};
+const particles = new Particles($('particles') as HTMLCanvasElement);
 
 type Row = { city: City; air: CityAir };
 let rows: Row[] = [];
@@ -240,7 +251,10 @@ function renderCity() {
   const part = cigs - Math.floor(cigs);
   icons.replaceChildren(
     ...Array.from({ length: whole }, () =>
-      Object.assign(document.createElement('i'), { className: 'cig' }),
+      Object.assign(document.createElement('i'), {
+        className: 'cig',
+        style: `--i:${Math.random() * 6}`,
+      }),
     ),
     ...(part >= 0.05 && whole < 30
       ? [
@@ -252,6 +266,9 @@ function renderCity() {
       : []),
   );
   const band = aqiBand(air.last24h);
+  particles.setLevel(air.last24h, BAND_RGB[band]);
+  $('hazeNote').textContent =
+    `The specks drifting here show ${selected}'s air: ${fmt(air.last24h)} µg/m³ of PM2.5.`;
   const whoTimes = air.last24h / WHO_24H_PM25;
   $('cityLine').textContent =
     `Average PM2.5 ${fmt(air.last24h)} µg/m³: "${band}" on India's AQI scale` +
